@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Most Popular Toys of 2025</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-color: #1e293b;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+        }
+
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .filter {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        select {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        select:hover {
+            border-color: var(--primary-color);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product {
+            display: flex;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            min-height: 250px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .product img {
+            width: 300px;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+
+        .product-content {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .product-meta {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            color: #fbbf24;
+            font-size: 1.1rem;
+        }
+
+        .review-count {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .product-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+        }
+
+        .buy-button {
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .share-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .share-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .product-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .buy-button:hover {
+            background-color: #4f46e5;
+        }
+
+        .refresh-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .refresh-button:hover {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .filter {
+                grid-template-columns: 1fr;
+            }
+
+            .product {
+                flex-direction: column;
+            }
+
+            .product img {
+                width: 100%;
+                height: 200px;
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            background: var(--card-background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .tips-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tip {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .tip h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        #about {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .disclosure {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        #why-us ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        #why-us li {
+            background: var(--card-background);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .site-footer {
+            background-color: var(--card-background);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 5% auto;
+            padding: 2rem;
+            width: 80%;
+            max-width: 800px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-top: 1.5rem;
+        }
+
+        .modal-body h3 {
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+
+        .cookie-list {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .cookie-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .cookie-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .cookie-type {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .cookie-type h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .cookie-table {
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .cookie-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .cookie-table th,
+        .cookie-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cookie-table th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+
+        .cookie-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-background);
+            padding: 1rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .cookie-consent-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .consent-button {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .consent-button.accept {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .consent-button.decline {
+            background: #e2e8f0;
+            color: var(--text-color);
+        }
+
+        #cookie-policy-link {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .cookie-consent-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .newsletter {
+            background: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .newsletter-form button {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            background: #fee2e2;
+            border-radius: var(--border-radius);
+        }
+
+        .error-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-state button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .sort-by {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sort-by select {
+            padding-right: 2.5rem;
+        }
+
+        .sort-by::after {
+            content: '↓';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--primary-color);
+        }
+
+        .sort-by select[data-order="desc"]::after {
+            content: '↑';
+        }
+
+        .wip-banner {
+            background-color: #fef3c7;
+            color: #92400e;
+            text-align: center;
+            padding: 0.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="wip-banner">
+        <p>🚧 This site is currently in development. Product data shown is for demonstration purposes only. 
+        We're working on integrating real-time Amazon data soon! 🚧</p>
+    </div>
+
+    <div class="container">
+        <h1>Top 10 Most Popular Toys of 2025</h1>
+        
+        <div class="filter">
+            <label>
+                <span>Age Group</span>
+                <select id="age-group">
+                    <option value="all">All Ages</option>
+                    <option value="0-2">0-2 years</option>
+                    <option value="3-5">3-5 years</option>
+                    <option value="6-8">6-8 years</option>
+                    <option value="9-12">9-12 years</option>
+                </select>
+            </label>
+            
+            <label>
+                <span>Price Range</span>
+                <select id="price-range">
+                    <option value="all">All</option>
+                    <option value="0-20">€0-20</option>
+                    <option value="20-50">€20-50</option>
+                    <option value="50-100">€50-100</option>
+                    <option value="100+">€100+</option>
+                </select>
+            </label>
+            
+            <label>
+                <span>Brand</span>
+                <select id="brand">
+                    <option value="all">All</option>
+                    <option value="lego">LEGO</option>
+                    <option value="hasbro">Hasbro</option>
+                    <option value="mattel">Mattel</option>
+                </select>
+            </label>
+            
+            <label>
+                <span>Toy Type</span>
+                <select id="toy-type">
+                    <option value="all">All</option>
+                    <option value="educational">Educational</option>
+                    <option value="fun">Fun</option>
+                    <option value="outdoor">Outdoor</option>
+                </select>
+            </label>
+
+            <label>
+                <span>Sort By</span>
+                <select id="sort-by">
+                    <option value="popularity">Most Popular</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="newest">Newest First</option>
+                </select>
+            </label>
+        </div>
+        
+        <div class="search-bar">
+            <input 
+                type="search" 
+                id="search-input" 
+                placeholder="Search toys by name, brand, or category..."
+                class="search-input"
+            >
+        </div>
+        
+        <div class="product-list" id="product-list">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <button class="refresh-button" id="refresh-button" title="Refresh prices">
+        ↻
+    </button>
+    
+    <div class="content-section">
+        <!-- About Section -->
+        <section id="about">
+            <h2>Find the Best-Selling Toys on Amazon</h2>
+            <p>Discover the top 10 most popular toys based on real Amazon sales data and customer reviews. 
+               Our real-time rankings help you find the perfect toys filtered by age group, category, 
+               and review scores.</p>
+            
+            <!-- Amazon Affiliate Disclosure -->
+            <div class="disclosure">
+                <p>As an Amazon Associate, we earn from qualifying purchases. 
+                   All rankings are based on actual Amazon sales data and customer reviews.</p>
+            </div>
+        </section>
+
+        <!-- Value Proposition -->
+        <section id="why-us">
+            <h2>Why Use Our Rankings?</h2>
+            <ul>
+                <li>Real-time Amazon bestseller data</li>
+                <li>Verified customer reviews</li>
+                <li>Age-appropriate filtering</li>
+                <li>Category-specific rankings</li>
+                <li>Direct links to Amazon</li>
+                <li>Updated prices and availability</li>
+            </ul>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features">
+            <h2>How It Works</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <h3>Filter by Age</h3>
+                    <p>Find top toys for specific age groups from toddlers to teens</p>
+                </div>
+                <div class="feature">
+                    <h3>Sort by Category</h3>
+                    <p>Educational, outdoor, creative, or entertainment toys</p>
+                </div>
+                <div class="feature">
+                    <h3>Check Reviews</h3>
+                    <p>See what real Amazon customers are saying</p>
+                </div>
+                <div class="feature">
+                    <h3>Track Popularity</h3>
+                    <p>Monitor sales ranks and trending toys</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Tips -->
+        <section id="search-tips">
+            <h2>Search Tips</h2>
+            <div class="tips-container">
+                <div class="tip">
+                    <h3>Age-Based Search</h3>
+                    <p>Use age filters to find developmentally appropriate toys</p>
+                </div>
+                <div class="tip">
+                    <h3>Category Focus</h3>
+                    <p>Narrow down by toy type for better results</p>
+                </div>
+                <div class="tip">
+                    <h3>Review Scores</h3>
+                    <p>Sort by customer ratings to find proven favorites</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Legal Information</h3>
+                    <ul>
+                        <li><a href="#" id="terms-link">Terms & Conditions</a></li>
+                        <li><a href="#" id="privacy-link">Privacy Policy</a></li>
+                        <li><a href="#" id="cookie-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <ul>
+                        <li><a href="#about">How It Works</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#affiliate-disclosure">Affiliate Disclosure</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Top Toys Tracker. All rights reserved.</p>
+            </div>
+        </div>
+
+        <!-- Modal for Terms & Conditions -->
+        <div id="terms-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Terms and Conditions</h2>
+                <div class="modal-body">
+                    <h3>1. Introduction</h3>
+                    <p>These terms and conditions govern your use of our website. By using our website, you accept these terms and conditions in full.</p>
+                    
+                    <h3>2. Amazon Affiliate Disclosure</h3>
+                    <p>This website is a participant in the Amazon Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.co.uk.</p>
+                    
+                    <h3>3. Product Information</h3>
+                    <p>While we strive to provide accurate product information, prices, and availability are subject to change. All prices shown are in GBP and include VAT where applicable.</p>
+                    
+                    <h3>4. User Obligations</h3>
+                    <p>You must not misuse this website or knowingly introduce viruses or other malicious material.</p>
+                    
+                    <h3>5. Limitations of Liability</h3>
+                    <p>We provide this website "as is" without any representations or warranties, express or implied.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Privacy Policy -->
+        <div id="privacy-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Privacy Policy</h2>
+                <div class="modal-body">
+                    <h3>1. Data Collection</h3>
+                    <p>We collect minimal personal data necessary for the operation of this website.</p>
+                    
+                    <h3>2. Use of Cookies</h3>
+                    <p>We use cookies to improve your browsing experience and analyze site traffic.</p>
+                    
+                    <h3>3. Third-Party Services</h3>
+                    <p>We use Amazon's API services and may share anonymized usage data with them.</p>
+                    
+                    <h3>4. Your Rights</h3>
+                    <p>You have the right to access, correct, or delete your personal data.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add this inside the footer, alongside other modals -->
+        <div id="cookie-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Cookie Policy</h2>
+                <div class="modal-body">
+                    <h3>1. What Are Cookies</h3>
+                    <p>Cookies are small text files that are stored on your computer or mobile device when you visit our website. They help us make the site work better for you.</p>
+                    
+                    <h3>2. How We Use Cookies</h3>
+                    <p>We use cookies for the following purposes:</p>
+                    <ul class="cookie-list">
+                        <li><strong>Essential Cookies:</strong> Required for the website to function properly</li>
+                        <li><strong>Functionality Cookies:</strong> Remember your preferences and choices</li>
+                        <li><strong>Analytics Cookies:</strong> Help us understand how visitors use our site</li>
+                        <li><strong>Advertising Cookies:</strong> Used to deliver relevant Amazon product advertisements</li>
+                    </ul>
+                    
+                    <h3>3. Types of Cookies We Use</h3>
+                    <div class="cookie-types">
+                        <div class="cookie-type">
+                            <h4>Session Cookies</h4>
+                            <p>Temporary cookies that expire when you close your browser</p>
+                        </div>
+                        <div class="cookie-type">
+                            <h4>Persistent Cookies</h4>
+                            <p>Remain on your device until they expire or you delete them</p>
+                        </div>
+                        <div class="cookie-type">
+                            <h4>Third-Party Cookies</h4>
+                            <p>Set by Amazon and analytics providers</p>
+                        </div>
+                    </div>
+
+                    <h3>4. Managing Cookies</h3>
+                    <p>You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed. However, if you do this, you may have to manually adjust some preferences every time you visit our site and some services and functionalities may not work.</p>
+
+                    <h3>5. Specific Cookies We Use</h3>
+                    <div class="cookie-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cookie Name</th>
+                                    <th>Purpose</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>session_id</td>
+                                    <td>Manages user session</td>
+                                    <td>Session</td>
+                                </tr>
+                                <tr>
+                                    <td>preferences</td>
+                                    <td>Stores your filter preferences</td>
+                                    <td>1 year</td>
+                                </tr>
+                                <tr>
+                                    <td>amazon_associate</td>
+                                    <td>Tracks affiliate links</td>
+                                    <td>30 days</td>
+                                </tr>
+                                <tr>
+                                    <td>analytics_id</td>
+                                    <td>Anonymous usage tracking</td>
+                                    <td>2 years</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>6. Updates to This Policy</h3>
+                    <p>We may update this Cookie Policy from time to time. Please check this page regularly for any changes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add to footer section -->
+        <div class="disclaimer">
+            <p>This website is currently in development. All product information, prices, and reviews shown are mock data for demonstration purposes only. We are in the process of applying for Amazon API integration to provide real-time data.</p>
+            <p>Images sourced from Unsplash for demonstration purposes.</p>
+        </div>
+    </footer>
+    
+    <section class="newsletter">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p>Get notifications about new toys and price drops!</p>
+            <form class="newsletter-form" id="newsletter-form">
+                <input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    required
+                >
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    
+    <button id="back-to-top" class="back-to-top" title="Back to top">↑</button>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productList = document.getElementById('product-list');
+            
+            async function fetchProducts() {
+                try {
+                    const ageGroup = document.getElementById('age-group').value;
+                    const priceRange = document.getElementById('price-range').value;
+                    const brand = document.getElementById('brand').value;
+                    const category = document.getElementById('toy-type').value;
+                    const searchTerm = document.getElementById('search-input').value;
+                    
+                    const queryParams = new URLSearchParams({
+                        ageGroup,
+                        priceRange,
+                        brand,
+                        category,
+                        search: searchTerm,
+                        sortBy: document.getElementById('sort-by').value,
+                        page: 1,
+                        limit: 10
+                    });
+                    
+                    showLoading();
+                    
+                    const response = await fetch(`/.netlify/functions/toys?${queryParams}`, {
+                        headers: {
+                            'x-api-key': 'development_api_key_123'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.data.length === 0) {
+                        productList.innerHTML = '<p>No products found matching your criteria.</p>';
+                        return;
+                    }
+                    
+                    productList.innerHTML = data.data
+                        .map((toy, index) => `
+                            <div class="product">
+                                <div class="rank-badge">#${index + 1}</div>
+                                <img src="${toy.image}" alt="${toy.name}">
+                                <div class="product-content">
+                                    <div class="product-header">
+                                        <h3 class="product-title">${toy.name}</h3>
+                                        <div class="rating">
+                                            ${'★'.repeat(Math.floor(toy.rating))}${'☆'.repeat(5-Math.floor(toy.rating))}
+                                            <span class="review-count">(${toy.reviewCount} reviews)</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="product-meta">
+                                        <div class="product-price">${toy.price}</div>
+                                        <div class="product-brand">Brand: ${toy.brand}</div>
+                                        ${toy.isPrime ? '<div class="prime-badge">✓ Prime</div>' : ''}
+                                    </div>
+
+                                    <p class="product-description">${toy.description}</p>
+                                    
+                                    <div class="pros-cons">
+                                        <div class="pros">
+                                            <h4>✓ Pros</h4>
+                                            <ul>
+                                                ${toy.pros.map(pro => `<li>${pro}</li>`).join('')}
+                                            </ul>
+                                        </div>
+                                        <div class="cons">
+                                            <h4>✗ Cons</h4>
+                                            <ul>
+                                                ${toy.cons.map(con => `<li>${con}</li>`).join('')}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="product-footer">
+                                        <a href="${toy.amazonLink}" class="buy-button" target="_blank">
+                                            Buy on Amazon
+                                        </a>
+                                        <button class="share-btn" onclick="shareProduct('${toy.name}')">
+                                            Share <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                        
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError(error.message);
+                }
+            }
+
+            // Add event listeners for filters
+            document.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', fetchProducts);
+            });
+
+            // Handle search input
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    fetchProducts();
+                }
+            });
+
+            // Initial fetch
+            fetchProducts();
+            
+            // Refresh button handler
+            document.getElementById('refresh-button').addEventListener('click', function() {
+                productList.innerHTML = '<p>Refreshing products...</p>';
+                fetchProducts();
+            });
+
+            // Modal functionality
+            function setupModal(linkId, modalId) {
+                const modal = document.getElementById(modalId);
+                const link = document.getElementById(linkId);
+                const closeBtn = modal.querySelector('.close');
+
+                link.onclick = function(e) {
+                    e.preventDefault();
+                    modal.style.display = "block";
+                }
+
+                closeBtn.onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+
+            // Setup modals
+            setupModal('terms-link', 'terms-modal');
+            setupModal('privacy-link', 'privacy-modal');
+            setupModal('cookie-link', 'cookie-modal');
+
+            // Optional: Show cookie consent banner
+            if (!localStorage.getItem('cookieConsent')) {
+                const consentBanner = document.createElement('div');
+                consentBanner.className = 'cookie-consent';
+                consentBanner.innerHTML = `
+                    <div class="cookie-consent-content">
+                        <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+                        <div class="cookie-buttons">
+                            <button id="accept-cookies" class="consent-button accept">Accept</button>
+                            <button id="decline-cookies" class="consent-button decline">Decline</button>
+                            <a href="#" id="cookie-policy-link">Learn More</a>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(consentBanner);
+
+                document.getElementById('accept-cookies').onclick = function() {
+                    localStorage.setItem('cookieConsent', 'accepted');
+                    consentBanner.remove();
+                };
+
+                document.getElementById('decline-cookies').onclick = function() {
+                    localStorage.setItem('cookieConsent', 'declined');
+                    consentBanner.remove();
+                };
+
+                document.getElementById('cookie-policy-link').onclick = function(e) {
+                    e.preventDefault();
+                    document.getElementById('cookie-link').click();
+                };
+            }
+
+            function shareProduct(productName) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: productName,
+                        text: `Check out this toy on Top Toys Tracker!`,
+                        url: window.location.href
+                    });
+                }
+            }
+
+            function showLoading() {
+                productList.innerHTML = `
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading amazing toys...</p>
+                    </div>
+                `;
+            }
+
+            function showError(message) {
+                productList.innerHTML = `
+                    <div class="error-state">
+                        <div class="error-icon">❌</div>
+                        <h3>Oops! Something went wrong</h3>
+                        <p>${message}</p>
+                        <button onclick="fetchProducts()">Try Again</button>
+                    </div>
+                `;
+            }
+
+            window.addEventListener('scroll', () => {
+                const backToTop = document.getElementById('back-to-top');
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            document.getElementById('back-to-top').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
