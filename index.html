@@ -1013,7 +1013,8 @@
                     const priceRange = document.getElementById('price-range').value;
                     const brand = document.getElementById('brand').value;
                     const category = document.getElementById('toy-type').value;
-                    const searchTerm = document.getElementById('search-input').value;
+                    const searchTerm = document.getElementById('search-input')?.value || '';
+                    const sortBy = document.getElementById('sort-by').value;
                     
                     const queryParams = new URLSearchParams({
                         ageGroup,
@@ -1021,18 +1022,12 @@
                         brand,
                         category,
                         search: searchTerm,
-                        sortBy: document.getElementById('sort-by').value,
-                        page: 1,
-                        limit: 10
+                        sortBy
                     });
                     
                     showLoading();
                     
-                    const response = await fetch(`/.netlify/functions/toys?${queryParams}`, {
-                        headers: {
-                            'x-api-key': 'development_api_key_123'
-                        }
-                    });
+                    const response = await fetch(`/api/toys?${queryParams}`);
                     
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
@@ -1096,7 +1091,14 @@
                         
                 } catch (error) {
                     console.error('Error:', error);
-                    showError(error.message);
+                    productList.innerHTML = `
+                        <div class="error-state">
+                            <div class="error-icon">❌</div>
+                            <h3>Oops! Something went wrong</h3>
+                            <p>${error.message}</p>
+                            <button onclick="fetchProducts()">Try Again</button>
+                        </div>
+                    `;
                 }
             }
 
@@ -1197,17 +1199,6 @@
                     <div class="loading-state">
                         <div class="loading-spinner"></div>
                         <p>Loading amazing toys...</p>
-                    </div>
-                `;
-            }
-
-            function showError(message) {
-                productList.innerHTML = `
-                    <div class="error-state">
-                        <div class="error-icon">❌</div>
-                        <h3>Oops! Something went wrong</h3>
-                        <p>${message}</p>
-                        <button onclick="fetchProducts()">Try Again</button>
                     </div>
                 `;
             }
